@@ -15,6 +15,9 @@ namespace tpmodul6_1302213030
 
         public SayaTubeVideo(string title)
         {
+            Contract.Requires(title.Length <= 100);
+            Contract.Requires(title != null);
+
             this.title = title;
             Random random = new Random();
             id = random.Next(10000, 99999);
@@ -25,8 +28,18 @@ namespace tpmodul6_1302213030
 
         public void increasePlayCount(int playCount)
         {
-            this.playCount = playCount;
-    
+            Contract.Requires(playCount < 10000000);
+            try
+            {
+                checked
+                {
+                    this.playCount = playCount;
+                }
+            }
+            catch (OverflowException)
+            {
+                Console.WriteLine("Error");
+            }
         }
 
         public void printVideoDetails()
@@ -36,5 +49,4 @@ namespace tpmodul6_1302213030
             Console.WriteLine("Play Count   : " + playCount);
         }
     }
- }
-
+}
